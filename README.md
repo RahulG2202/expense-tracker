@@ -1,1 +1,1 @@
-# expense-tracker
+# React + Vite Expense Tracker Application
