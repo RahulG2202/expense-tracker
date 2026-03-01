@@ -1,11 +1,11 @@
-/* Package imports */
+//* Package imports */
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-/* Component imports */
+//* Component imports */
 import Layout from "@/components/Layout";
 import Home from "@/pages/home/Home";
 
-/* Style imports */
+//* Style imports */
 import "./App.css";
 
 function App() {

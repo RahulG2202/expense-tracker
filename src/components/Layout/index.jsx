@@ -1,43 +1,75 @@
+//* Package imports */
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 
-const index = () => {
+//* Component imports */
+import Modal from "@/components/common/Modal";
+import ExpenseForm from "@/components/ExpenseForm";
+
+//* Utils imports */
+import {
+  openAddExpenseModal,
+  closeExpenseFormModal,
+} from "@/store/slices/formSlice";
+
+const Layout = () => {
+  const dispatch = useDispatch();
+
+  const { isAddExpenseModalOpen, editingExpense } = useSelector(
+    (state) => state.expenseForm,
+  );
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white border-b border-gray-200 py-4 px-6 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <div className="min-h-screen bg-[#F7F2F6] flex flex-col font-sans">
+      <header className="bg-white border-b border-purple-100 py-5 px-8 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-350 mx-auto flex justify-between items-center">
           <Link
             to="/"
-            className="text-2xl font-bold text-blue-800 flex items-center gap-2"
+            className="text-2xl font-bold text-[#4A1D46] flex items-center gap-2 transition-transform active:scale-95"
           >
-            <span className="bg-blue-800 text-white px-2 py-1 rounded">C</span>
-            Partnership Tracker
+            <span className="bg-[#4A1D46] text-white px-3 py-1 rounded-lg">
+              E
+            </span>
+            Expense Tracker
           </Link>
-          <nav className="flex gap-4">
+
+          <nav className="flex items-center gap-6">
             <Link
               to="/"
-              className="text-gray-600 hover:text-blue-800 font-medium px-3 py-2 transition"
+              className="text-gray-500 hover:text-[#4A1D46] font-semibold px-3 py-2 transition-colors"
             >
               Dashboard
             </Link>
-            <Link
-              to="/add"
-              className="bg-blue-800 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition font-medium shadow-sm"
+            <button
+              className="bg-[#4A1D46] text-white px-6 py-2.5 rounded-xl hover:opacity-90 transition-all font-bold shadow-md active:scale-95"
+              onClick={() => dispatch(openAddExpenseModal())}
             >
               + New Expense
-            </Link>
+            </button>
           </nav>
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full p-6">
+      <main className="flex-1 max-w-350 mx-auto w-full p-8 lg:p-12">
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t border-gray-200 py-6 text-center text-gray-500 text-sm">
+      <footer className="bg-white border-t border-purple-100 py-8 text-center text-gray-400 text-sm font-medium">
         Collaboratory Partnership Tracker | Spring 2026
       </footer>
+
+      {isAddExpenseModalOpen && (
+        <Modal
+          isOpen={isAddExpenseModalOpen}
+          onClose={() => dispatch(closeExpenseFormModal())}
+          title={editingExpense ? "Edit Expense" : "Add New Expense"}
+          maxWidth="max-w-lg"
+        >
+          <ExpenseForm key={editingExpense?.id || "new-expense"} />
+        </Modal>
+      )}
     </div>
   );
 };
 
-export default index;
+export default Layout;
