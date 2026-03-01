@@ -1,20 +1,42 @@
 //* Package imports */
-import { clsx } from "clsx";
+import { useState } from "react";
+import clsx from "clsx";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
+//* Component imports */
+import ExpenseCard from "@/components/ExpenseCard";
+import InfiniteScrollSentinel from "@/components/common/InfiniteScroll";
+
 //* Utils imports */
 import { COLUMNS } from "@/utils/constants";
-import { updateStatus, deleteExpense } from "@/store/slices/expenseSlice";
+import { updateStatus } from "@/store/slices/expenseSlice";
+
+const PAGE_SIZE = 5;
 
 const Home = () => {
   const { expenses } = useSelector((state) => state.expenses);
   const dispatch = useDispatch();
 
+  const [limits, setLimits] = useState({
+    Pending: PAGE_SIZE,
+    Approved: PAGE_SIZE,
+    Correction: PAGE_SIZE,
+  });
+
   const totalAmount = expenses
     .filter((e) => e.status === "Approved")
     .reduce((sum, e) => sum + Number(e.amount), 0);
+
+  const handleLoadMore = (status, totalItems) => {
+    setLimits((prev) => {
+      if (prev[status] < totalItems) {
+        return { ...prev, [status]: prev[status] + PAGE_SIZE };
+      }
+      return prev;
+    });
+  };
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -26,7 +48,6 @@ const Home = () => {
     )
       return;
 
-    // Update the status in Redux
     dispatch(
       updateStatus({
         id: Number(draggableId),
@@ -38,7 +59,7 @@ const Home = () => {
   };
 
   return (
-    <div className="space-y-8 pb-10">
+    <div className="space-y-8">
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h1 className="text-5xl font-bold text-gray-900 tracking-tight">
@@ -62,108 +83,74 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Expense Drag & Drop Section */}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {COLUMNS.map((col) => (
-            <div
-              key={col.id}
-              className="bg-[#F7F2F6] rounded-[2.5rem] p-6 min-h-125 flex flex-col shadow-inner"
-            >
-              <div className="flex items-center justify-between mb-6 px-2">
-                <h3 className="font-bold text-gray-800 text-xl">{col.title}</h3>
-                <span
-                  className={clsx(
-                    "px-3 py-1 rounded-full text-xs font-bold",
-                    col.color,
-                  )}
-                >
-                  {expenses.filter((e) => e.status === col.id).length}
-                </span>
-              </div>
+          {COLUMNS.map((col) => {
+            const columnExpenses = expenses.filter((e) => e.status === col.id);
+            const visibleExpenses = columnExpenses.slice(0, limits[col.id]);
+            const hasMoreData = limits[col.id] < columnExpenses.length;
 
-              <Droppable droppableId={col.id}>
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className={clsx(
-                      "flex-1 space-y-4 transition-colors duration-200 rounded-2xl",
-                      snapshot.isDraggingOver ? "bg-white/40" : "",
+            return (
+              <div
+                key={col.id}
+                className="bg-[#F7F2F6] rounded-[2.5rem] p-6 flex flex-col shadow-inner min-h-125 h-[65vh]"
+              >
+                <div className="flex items-center justify-between mb-6 px-2">
+                  <h3 className="font-bold text-gray-800 text-xl">
+                    {col.title}
+                  </h3>
+                  <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 shadow-sm">
+                    {visibleExpenses.length} / {columnExpenses.length}
+                  </span>
+                </div>
+
+                <div className="flex-1 overflow-y-auto px-2 custom-scrollbar pb-10 bg-[#F7F2F6]/50 rounded-[2.5rem] pt-4">
+                  <Droppable droppableId={col.id}>
+                    {(provided, snapshot) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className={clsx(
+                          "flex-1 space-y-4",
+                          snapshot.isDraggingOver ? "bg-purple-50" : "",
+                        )}
+                      >
+                        {visibleExpenses.map((expense, index) => (
+                          <Draggable
+                            key={expense.id}
+                            draggableId={expense.id.toString()}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <ExpenseCard
+                                  expense={expense}
+                                  snapshot={snapshot}
+                                />
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+
+                        {provided.placeholder}
+
+                        <InfiniteScrollSentinel
+                          hasMore={hasMoreData}
+                          onIntersect={() =>
+                            handleLoadMore(col.id, columnExpenses.length)
+                          }
+                        />
+                      </div>
                     )}
-                  >
-                    {expenses
-                      .filter((e) => e.status === col.id)
-                      .map((expense, index) => (
-                        <Draggable
-                          key={expense.id}
-                          draggableId={expense.id.toString()}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={clsx(
-                                "bg-white p-5 rounded-2xl shadow-sm border border-transparent hover:border-purple-200 transition-all group",
-                                snapshot.isDragging
-                                  ? "shadow-2xl ring-2 ring-[#4A1D46]/20"
-                                  : "",
-                              )}
-                            >
-                              <div className="flex justify-between items-start">
-                                <div>
-                                  <h4 className="font-bold text-gray-900 group-hover:text-[#4A1D46] transition-colors uppercase text-sm tracking-wider">
-                                    {expense.title}
-                                  </h4>
-                                  <p className="text-xs text-gray-400 mt-1">
-                                    {expense.category}
-                                  </p>
-                                </div>
-                                <span className="font-bold text-lg">
-                                  ₹{expense.amount}
-                                </span>
-                              </div>
-
-                              <div className="mt-4 flex justify-between items-center">
-                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">
-                                  {new Date(
-                                    expense.createdAt,
-                                  ).toLocaleDateString()}
-                                </span>
-                                <button
-                                  onClick={() =>
-                                    dispatch(deleteExpense(expense.id))
-                                  }
-                                  className="bg-[#FF9F8E] p-2 rounded-xl text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M6 18L18 6M6 6l12 12"
-                                    />
-                                  </svg>
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
-          ))}
+                  </Droppable>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </DragDropContext>
     </div>
