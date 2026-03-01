@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { dummyExpenses } from "@/utils/dummyData";
+
 const initialState = {
-  expenses: [],
+  expenses: dummyExpenses,
   filterCategory: "All",
 };
 

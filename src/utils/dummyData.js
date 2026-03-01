@@ -1,0 +1,223 @@
+export const dummyExpenses = [
+  // --- APPROVED STATUS (Totaling these will show in your Purple Card) ---
+  {
+    id: 101,
+    title: "Annual STEM Workshop Materials",
+    partnershipName: "Phoenix Public Library",
+    department: "School of Computing & AI",
+    category: "Educational Materials",
+    amount: 12500,
+    description:
+      "Purchase of 50 Arduino starter kits and sensors for the youth summer coding camp.",
+    status: "Approved",
+    createdAt: "2024-02-15T10:30:00Z",
+  },
+  {
+    id: 102,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 113,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 115,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 116,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 117,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 118,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 119,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 120,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 121,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 122,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 123,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+  {
+    id: 124,
+    title: "Student Research Stipends - Fall",
+    partnershipName: "Valley Health Foundation",
+    department: "College of Health Solutions",
+    category: "Student Stipend",
+    amount: 45000,
+    description:
+      "Monthly stipends for 3 graduate students conducting community health surveys in rural Arizona.",
+    status: "Approved",
+    createdAt: "2024-01-20T09:00:00Z",
+  },
+
+  // --- PENDING STATUS (Items waiting for administrative review) ---
+  {
+    id: 103,
+    title: "Community Garden Infrastructure",
+    partnershipName: "Green Earth Non-Profit",
+    department: "School of Sustainability",
+    category: "Community Outreach",
+    amount: 8200,
+    description:
+      "Funding requested for solar irrigation pumps and recycled timber for 12 new raised beds.",
+    status: "Pending",
+    createdAt: "2024-02-28T14:15:00Z",
+  },
+  {
+    id: 104,
+    title: "Teacher Training Travel - National",
+    partnershipName: "Maricopa School District",
+    department: "Mary Lou Fulton Teachers College",
+    category: "Travel & Logistics",
+    amount: 3400,
+    description:
+      "Airfare and lodging for 2 faculty members to present collaborative research at the AERA Conference.",
+    status: "Pending",
+    createdAt: "2024-03-01T11:45:00Z",
+  },
+  {
+    id: 114,
+    title: "Teacher Training Travel - National",
+    partnershipName: "Maricopa School District",
+    department: "Mary Lou Fulton Teachers College",
+    category: "Travel & Logistics",
+    amount: 3400,
+    description:
+      "Airfare and lodging for 2 faculty members to present collaborative research at the AERA Conference.",
+    status: "Pending",
+    createdAt: "2024-03-01T11:45:00Z",
+  },
+
+  // --- CORRECTION STATUS (Items sent back to faculty for more info) ---
+  {
+    id: 105,
+    title: "AI Ethics Symposium Catering",
+    partnershipName: "Digital Rights Watch",
+    department: "School of Computing & AI",
+    category: "Event Sponsorship",
+    amount: 2150,
+    description:
+      "Refreshments for the 2-day symposium. Note: Missing quotes from approved university vendors.",
+    status: "Correction",
+    createdAt: "2024-02-10T16:20:00Z",
+  },
+  {
+    id: 106,
+    title: "Mobile Dental Clinic Equipment",
+    partnershipName: "Homeless Healthcare Central",
+    department: "College of Health Solutions",
+    category: "Technology/Equipment",
+    amount: 6700,
+    description:
+      "Portable X-ray machine. Correction Needed: Please provide the serial number and inventory asset tag.",
+    status: "Correction",
+    createdAt: "2024-02-22T13:10:00Z",
+  },
+];
