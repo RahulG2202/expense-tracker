@@ -5,6 +5,7 @@ import { dummyExpenses } from "@/utils/dummyData";
 const initialState = {
   expenses: dummyExpenses,
   filterCategory: "All",
+  searchTerm: "",
 };
 
 const expenseSlice = createSlice({
@@ -45,6 +46,9 @@ const expenseSlice = createSlice({
     setFilterCategory: (state, action) => {
       state.filterCategory = action.payload;
     },
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
   },
 });
 
@@ -54,6 +58,7 @@ export const {
   updateExpense,
   updateStatus,
   setFilterCategory,
+  setSearchTerm,
 } = expenseSlice.actions;
 export const selectExpenses = (state) => state.expenses.expenses;
 export default expenseSlice.reducer;

@@ -6,18 +6,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 //* Component imports */
+import HomeHeader from "@/components/HomeHeader";
 import ExpenseCard from "@/components/ExpenseCard";
 import InfiniteScrollSentinel from "@/components/common/InfiniteScroll";
 
 //* Utils imports */
 import { COLUMNS } from "@/utils/constants";
+import { useDebounce } from "@/hooks/useDebounce";
 import { updateStatus } from "@/store/slices/expenseSlice";
 
 const PAGE_SIZE = 5;
 
 const Home = () => {
-  const { expenses } = useSelector((state) => state.expenses);
+  const { expenses, filterCategory, searchTerm } = useSelector(
+    (state) => state.expenses,
+  );
   const dispatch = useDispatch();
+
+  const debouncedSearch = useDebounce(searchTerm, 300);
 
   const [limits, setLimits] = useState({
     Pending: PAGE_SIZE,
@@ -58,35 +64,29 @@ const Home = () => {
     toast.success(`Moved to ${destination.droppableId}`);
   };
 
+  const filteredExpenses = expenses.filter((expense) => {
+    const categoryMatch =
+      filterCategory === "All" || expense.category === filterCategory;
+
+    // Search Filter (Title or ID)
+    const searchLower = debouncedSearch?.toLowerCase();
+    const searchMatch =
+      expense.title.toLowerCase().includes(searchLower) ||
+      expense.id.toString().includes(searchLower);
+
+    return categoryMatch && searchMatch;
+  });
+
   return (
     <div className="space-y-8">
-      <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <h1 className="text-5xl font-bold text-gray-900 tracking-tight">
-            Hello, Developer
-          </h1>
-          <p className="text-gray-500 mt-2 text-lg">
-            Track and manage your partnership funding requests.
-          </p>
-        </div>
-
-        <div className="bg-[#4A1D46] text-white p-8 rounded-4xl shadow-2xl min-w-70 relative overflow-hidden group">
-          <div className="relative z-10">
-            <span className="text-sm opacity-80 font-medium">
-              Approved Total
-            </span>
-            <h2 className="text-4xl font-bold mt-1">
-              ₹ {totalAmount.toLocaleString()}
-            </h2>
-          </div>
-          <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/10 rounded-full group-hover:scale-110 transition-transform"></div>
-        </div>
-      </section>
+      <HomeHeader totalAmount={totalAmount} />
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           {COLUMNS.map((col) => {
-            const columnExpenses = expenses.filter((e) => e.status === col.id);
+            const columnExpenses = filteredExpenses.filter(
+              (e) => e.status === col.id,
+            );
             const visibleExpenses = columnExpenses.slice(0, limits[col.id]);
             const hasMoreData = limits[col.id] < columnExpenses.length;
 
