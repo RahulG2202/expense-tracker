@@ -40,7 +40,7 @@ const Layout = () => {
 
           <nav className="flex items-center gap-6">
             <Link
-              to="/"
+              to="/dashboard"
               className="text-gray-500 hover:text-[#4A1D46] font-semibold px-3 py-2 transition-colors"
             >
               Dashboard
