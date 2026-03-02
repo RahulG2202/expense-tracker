@@ -12,7 +12,7 @@ const expenseSlice = createSlice({
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      state.expenses.push({
+      state.expenses.unshift({
         ...action.payload,
         id: Date.now(),
         status: "Pending",
@@ -31,7 +31,7 @@ const expenseSlice = createSlice({
       if (index !== -1) {
         state.expenses[index] = {
           ...state.expenses[index],
-          ...action.payload.updates,
+          ...action.payload,
         };
       }
     },

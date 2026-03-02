@@ -113,7 +113,7 @@ const ExpenseForm = () => {
         type="submit"
         className="w-full bg-[#4A1D46] text-white py-4 rounded-2xl font-bold shadow-lg hover:opacity-95 active:scale-[0.98] transition-all mt-4"
       >
-        {editingExpense ? "Update Request" : "Submit Funding Request"}
+        {editingExpense ? "Update Expense" : "Submit Funding Request"}
       </button>
     </form>
   );

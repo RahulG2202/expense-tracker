@@ -5,19 +5,24 @@ import { Link, Outlet } from "react-router-dom";
 //* Component imports */
 import Modal from "@/components/common/Modal";
 import ExpenseForm from "@/components/ExpenseForm";
+import ExpenseDetailView from "@/components/ExpenseDetailView";
 
 //* Utils imports */
 import {
   openAddExpenseModal,
   closeExpenseFormModal,
+  closeDetailModal,
 } from "@/store/slices/formSlice";
 
 const Layout = () => {
   const dispatch = useDispatch();
 
-  const { isAddExpenseModalOpen, editingExpense } = useSelector(
-    (state) => state.expenseForm,
-  );
+  const {
+    isAddExpenseModalOpen,
+    isDetailModalOpen,
+    viewingExpense,
+    editingExpense,
+  } = useSelector((state) => state.expenseForm);
 
   return (
     <div className="min-h-screen bg-[#F7F2F6] flex flex-col font-sans">
@@ -57,6 +62,17 @@ const Layout = () => {
       <footer className="bg-white border-t border-purple-100 py-8 text-center text-gray-400 text-sm font-medium">
         Collaboratory Partnership Tracker | Spring 2026
       </footer>
+
+      {isDetailModalOpen && (
+        <Modal
+          isOpen={isDetailModalOpen}
+          onClose={() => dispatch(closeDetailModal())}
+          title="Expense Details"
+          maxWidth="max-w-lg"
+        >
+          <ExpenseDetailView expense={viewingExpense} />
+        </Modal>
+      )}
 
       {isAddExpenseModalOpen && (
         <Modal
