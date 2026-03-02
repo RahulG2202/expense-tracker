@@ -12,6 +12,7 @@ export const COLUMNS = [
   },
 ];
 export const CATEGORIES = [
+  "All",
   "Community Outreach",
   "Research Grant",
   "Student Stipend",

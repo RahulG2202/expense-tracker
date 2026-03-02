@@ -83,7 +83,7 @@ const ExpenseForm = () => {
 
         <FormSelect
           label="Funding Category"
-          options={CATEGORIES}
+          options={CATEGORIES.slice(1)}
           value={formData.category}
           onChange={(e) =>
             setFormData({ ...formData, category: e.target.value })
